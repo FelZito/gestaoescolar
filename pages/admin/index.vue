@@ -9,7 +9,7 @@
             <p class="text-sm text-gray-600">Seletivo de Gestores Escolares 2025</p>
           </div>
         <div class="flex items-center space-x-4">
-          <span class="text-sm text-gray-500">Dashboard Administrativo</span>
+          <button @click="handleLogout" class="px-3 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-700">Sair</button>
         </div>
         </div>
       </div>
@@ -482,43 +482,10 @@ const clearAllCookies = () => {
 
 // Logout
 const handleLogout = async () => {
-  // Mostrar confirmação
-  if (!confirm('Tem certeza que deseja sair?')) {
-    return
-  }
-  
-  // Limpar todos os cookies
-  clearAllCookies()
-  
-  // Limpar também usando useCookie
-  const session = useCookie('admin-session')
-  const user = useCookie('admin-user')
-  session.value = null
-  user.value = null
-  
-  // Forçar limpeza adicional
-  if (process.client) {
-    // Limpar cookies com diferentes configurações
-    document.cookie = 'admin-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-    document.cookie = 'admin-user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-    document.cookie = 'admin-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=localhost;'
-    document.cookie = 'admin-user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=localhost;'
-    
-    // Limpar localStorage e sessionStorage
-    localStorage.clear()
-    sessionStorage.clear()
-  }
-  
-  // Aguardar um pouco para garantir que os cookies foram limpos
-  await new Promise(resolve => setTimeout(resolve, 200))
-  
-  // Mostrar mensagem de logout
-  alert('Logout realizado com sucesso!')
-  
-  // Forçar reload da página para garantir que o middleware funcione
-  if (process.client) {
-    window.location.href = '/admin/login'
-  } else {
+  if (!confirm('Tem certeza que deseja sair?')) return
+  try {
+    await $fetch('/api/admin/logout', { method: 'POST', credentials: 'include' })
+  } finally {
     await navigateTo('/admin/login')
   }
 }

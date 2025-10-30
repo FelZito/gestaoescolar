@@ -1,65 +1,42 @@
+import { createSession, SESSION_COOKIE_NAME, SESSION_MAX_AGE_SECONDS } from '~/server/utils/sessionStore'
+
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
-    const { username, password } = body
+    const { email, username, password } = body || {}
 
-    if (!username || !password) {
+    if ((!email && !username) || !password) {
       throw createError({
         statusCode: 400,
         statusMessage: 'Usuário e senha são obrigatórios'
       })
     }
 
-    // Login simples - sem banco de dados
-    if (username === 'admin' && password === 'admin123') {
-      // Definir cookie de sessão simples
-      setCookie(event, 'admin-session', 'true', {
-        httpOnly: true,
-        secure: false, // Para desenvolvimento
-        sameSite: 'lax',
-        maxAge: 24 * 60 * 60 // 24 horas
-      })
+    const validUsername = 'admin'
+    const validPassword = 'sr102030@'
 
-      // Armazenar dados do admin na sessão
-      setCookie(event, 'admin-user', JSON.stringify({
-        id: 'admin-1',
-        username: 'admin',
-        name: 'Administrador',
-        email: 'admin@santarita.gov.br'
-      }), {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
-        maxAge: 24 * 60 * 60
-      })
-
-      return {
-        success: true,
-        message: 'Login realizado com sucesso',
-        admin: {
-          id: 'admin-1',
-          username: 'admin',
-          name: 'Administrador',
-          email: 'admin@santarita.gov.br'
-        }
-      }
-    } else {
+    const isUserOk = (username && username === validUsername) || (email && email === validUsername)
+    if (!isUserOk || password !== validPassword) {
       throw createError({
         statusCode: 401,
         statusMessage: 'Credenciais inválidas'
       })
     }
 
-  } catch (error: any) {
-    console.error('Erro no login:', error)
-    
-    if (error.statusCode) {
-      throw error
-    }
+    const sessionId = globalThis.crypto?.randomUUID ? globalThis.crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`
+    createSession(sessionId, validUsername)
 
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Erro interno do servidor'
+    setCookie(event, SESSION_COOKIE_NAME, sessionId, {
+      httpOnly: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: SESSION_MAX_AGE_SECONDS,
+      secure: process.env.NODE_ENV === 'production'
     })
+
+    return { success: true }
+  } catch (error: any) {
+    if (error?.statusCode) throw error
+    throw createError({ statusCode: 500, statusMessage: 'Erro interno do servidor' })
   }
 })

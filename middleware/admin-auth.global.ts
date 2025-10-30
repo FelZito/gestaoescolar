@@ -4,7 +4,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   try {
     await $fetch('/api/admin/session', { method: 'GET', credentials: 'include' })
-  } catch (err) {
+  } catch {
     return navigateTo('/admin/login')
   }
 })
+
+
