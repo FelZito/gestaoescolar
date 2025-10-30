@@ -71,8 +71,8 @@ definePageMeta({
   layout: false
 })
 
-const username = ref('admin')
-const password = ref('sr102030@')
+const username = ref('')
+const password = ref('')
 const errorMessage = ref('')
 const loading = ref(false)
 
