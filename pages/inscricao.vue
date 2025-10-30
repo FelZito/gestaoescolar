@@ -37,19 +37,13 @@
               id="nomeCompleto"
               label="Nome Completo"
               v-model="form.nomeCompleto"
-              :required="true"
-              :error="getError('nomeCompleto')"
-              @blur="validateField('nomeCompleto')"
             />
             
             <FormInput
               id="cpf"
               label="CPF"
               v-model="form.cpf"
-              :required="true"
-              :error="getError('cpf')"
               placeholder="000.000.000-00"
-              @blur="validateField('cpf')"
               @input="formatCPF"
             />
             
@@ -58,9 +52,6 @@
               label="E-mail"
               type="email"
               v-model="form.email"
-              :required="true"
-              :error="getError('email')"
-              @blur="validateField('email')"
             />
             
             <FormInput
@@ -68,10 +59,7 @@
               label="Telefone"
               type="tel"
               v-model="form.telefone"
-              :required="true"
-              :error="getError('telefone')"
               placeholder="(11) 99999-9999"
-              @blur="validateField('telefone')"
               @input="formatPhone"
             />
             
@@ -79,18 +67,12 @@
               id="unidadeEnsino"
               label="Unidade de Ensino (Onde Atua Atualmente)"
               v-model="form.unidadeEnsino"
-              :required="true"
-              :error="getError('unidadeEnsino')"
-              @blur="validateField('unidadeEnsino')"
             />
             
             <FormInput
               id="funcaoAtual"
               label="Função (Atual)"
               v-model="form.funcaoAtual"
-              :required="true"
-              :error="getError('funcaoAtual')"
-              @blur="validateField('funcaoAtual')"
             />
             
             <FormSelect
@@ -98,8 +80,6 @@
               label="Formação Acadêmica"
               v-model="form.formacaoAcademica"
               :options="formacaoOptions"
-              :required="true"
-              :error="getError('formacaoAcademica')"
               placeholder="Selecione sua formação"
             />
             
@@ -108,8 +88,6 @@
               label="Sexo"
               v-model="form.sexo"
               :options="sexoOptions"
-              :required="true"
-              :error="getError('sexo')"
               placeholder="Selecione seu sexo"
             />
             
@@ -118,10 +96,7 @@
               label="Tempo de Experiência em Gestão Escolar (em anos)"
               type="number"
               v-model="form.tempoExperienciaGestao"
-              :required="true"
-              :error="getError('tempoExperienciaGestao')"
               min="0"
-              @blur="validateField('tempoExperienciaGestao')"
             />
           </div>
         </div>
@@ -137,9 +112,6 @@
               accept=".pdf,.jpg,.jpeg,.png"
               accept-text="PDF, JPG ou PNG (máx. 5MB)"
               v-model="files.rg"
-              :required="true"
-              :error="getError('rg')"
-              @file-change="validateFile('rg', $event)"
             />
             
             <FileUpload
@@ -148,9 +120,6 @@
               accept=".pdf,.jpg,.jpeg,.png"
               accept-text="PDF, JPG ou PNG (máx. 5MB)"
               v-model="files.cpf"
-              :required="true"
-              :error="getError('cpf')"
-              @file-change="validateFile('cpf', $event)"
             />
             
             <FileUpload
@@ -159,9 +128,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB)"
               v-model="files.comprovante_residencia"
-              :required="true"
-              :error="getError('comprovante_residencia')"
-              @file-change="validateFile('comprovante_residencia', $event)"
             />
             
             <FileUpload
@@ -170,9 +136,6 @@
               accept=".jpg,.jpeg,.png"
               accept-text="JPG ou PNG (máx. 5MB)"
               v-model="files.foto_3x4"
-              :required="true"
-              :error="getError('foto_3x4')"
-              @file-change="validateFile('foto_3x4', $event)"
             />
             
             <FileUpload
@@ -181,9 +144,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB)"
               v-model="files.qualificacao_profissional"
-              :required="true"
-              :error="getError('qualificacao_profissional')"
-              @file-change="validateFile('qualificacao_profissional', $event)"
             />
             
             <FileUpload
@@ -192,9 +152,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB)"
               v-model="files.declaracao_experiencia"
-              :required="true"
-              :error="getError('declaracao_experiencia')"
-              @file-change="validateFile('declaracao_experiencia', $event)"
             />
             
             <FileUpload
@@ -203,9 +160,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB)"
               v-model="files.titulo_eleitor"
-              :required="true"
-              :error="getError('titulo_eleitor')"
-              @file-change="validateFile('titulo_eleitor', $event)"
             />
             
             <FileUpload
@@ -215,9 +169,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB)"
               v-model="files.certificado_reservista"
-              :required="true"
-              :error="getError('certificado_reservista')"
-              @file-change="validateFile('certificado_reservista', $event)"
             />
           </div>
         </div>
@@ -234,8 +185,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB)"
               v-model="files.doutorado"
-              :error="getError('doutorado')"
-              @file-change="validateFile('doutorado', $event)"
             />
             
             <FileUpload
@@ -244,8 +193,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB)"
               v-model="files.mestrado"
-              :error="getError('mestrado')"
-              @file-change="validateFile('mestrado', $event)"
             />
             
             <FileUpload
@@ -254,8 +201,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB)"
               v-model="files.pos_graduacao"
-              :error="getError('pos_graduacao')"
-              @file-change="validateFile('pos_graduacao', $event)"
             />
             
             <FormInput
@@ -263,7 +208,6 @@
               label="ANEXO 3.1: Tempo de efetivo exercício no magistério da rede municipal (em anos)"
               type="number"
               v-model="form.tempo_magisterio"
-              :error="getError('tempo_magisterio')"
               min="0"
               max="20"
               help="Máximo 20 anos (1 ponto por ano)"
@@ -275,8 +219,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB)"
               v-model="files.experiencia_gestao"
-              :error="getError('experiencia_gestao')"
-              @file-change="validateFile('experiencia_gestao', $event)"
             />
             
             <FileUpload
@@ -285,8 +227,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB cada)"
               v-model="files.cursos_formacao"
-              :error="getError('cursos_formacao')"
-              @file-change="validateFile('cursos_formacao', $event)"
             />
           </div>
         </div>
@@ -318,8 +258,6 @@
               accept=".pdf"
               accept-text="PDF (máx. 5MB)"
               v-model="files.plano_gestao"
-              :error="getError('plano_gestao')"
-              @file-change="validateFile('plano_gestao', $event)"
             />
           </div>
         </div>
@@ -348,7 +286,7 @@
             <button
               type="submit"
               class="btn-primary"
-              :disabled="isSubmitting || hasErrors"
+              :disabled="isSubmitting"
             >
               <span v-if="isSubmitting">Enviando...</span>
               <span v-else>Enviar Inscrição</span>
@@ -361,7 +299,6 @@
 </template>
 
 <script setup lang="ts">
-import { useFormValidation } from '~/composables/useFormValidation'
 import { useDateRange } from '~/composables/useDateRange'
 
 // Meta
@@ -370,18 +307,7 @@ definePageMeta({
 })
 
 // Composables
-const { 
-  errors, 
-  isSubmitting, 
-  validateCPF, 
-  validateEmail, 
-  validatePhone, 
-  validateFile: validateFileUtil,
-  setError, 
-  clearError, 
-  hasErrors, 
-  getError 
-} = useFormValidation()
+const isSubmitting = ref(false)
 
 const { isManagementPlanPeriod, managementPlanMessage } = useDateRange()
 
@@ -449,79 +375,7 @@ const formatPhone = (event: Event) => {
   form.value.telefone = value
 }
 
-// Validações
-const validateField = (field: string) => {
-  clearError(field)
-  
-  switch (field) {
-    case 'nomeCompleto':
-      if (!form.value.nomeCompleto || form.value.nomeCompleto.length < 2) {
-        setError(field, 'Nome deve ter pelo menos 2 caracteres')
-      }
-      break
-    case 'cpf':
-      if (!form.value.cpf) {
-        setError(field, 'CPF é obrigatório')
-      } else if (!validateCPF(form.value.cpf)) {
-        setError(field, 'CPF inválido')
-      }
-      break
-    case 'email':
-      if (!form.value.email) {
-        setError(field, 'E-mail é obrigatório')
-      } else if (!validateEmail(form.value.email)) {
-        setError(field, 'E-mail inválido')
-      }
-      break
-    case 'telefone':
-      if (!form.value.telefone) {
-        setError(field, 'Telefone é obrigatório')
-      } else if (!validatePhone(form.value.telefone)) {
-        setError(field, 'Telefone deve ter 11 dígitos')
-      }
-      break
-    case 'unidadeEnsino':
-      if (!form.value.unidadeEnsino || form.value.unidadeEnsino.length < 2) {
-        setError(field, 'Unidade de ensino é obrigatória')
-      }
-      break
-    case 'funcaoAtual':
-      if (!form.value.funcaoAtual || form.value.funcaoAtual.length < 2) {
-        setError(field, 'Função atual é obrigatória')
-      }
-      break
-    case 'formacaoAcademica':
-      if (!form.value.formacaoAcademica) {
-        setError(field, 'Formação acadêmica é obrigatória')
-      }
-      break
-    case 'sexo':
-      if (!form.value.sexo) {
-        setError(field, 'Sexo é obrigatório')
-      }
-      break
-    case 'tempoExperienciaGestao':
-      if (form.value.tempoExperienciaGestao < 0) {
-        setError(field, 'Tempo de experiência deve ser maior ou igual a 0')
-      }
-      break
-  }
-}
-
-const validateFile = (field: string, file: File | null) => {
-  clearError(field)
-  
-  if (!file) return
-  
-  const allowedTypes = field === 'foto_3x4' 
-    ? ['image/jpeg', 'image/jpg', 'image/png']
-    : ['application/pdf']
-  
-  const error = validateFileUtil(file, allowedTypes, 5)
-  if (error) {
-    setError(field, error)
-  }
-}
+// Sem validações: removidas obrigatoriedades e verificações de erro
 
 // Navegação
 const goBack = () => {
@@ -537,25 +391,7 @@ const saveDraft = () => {
 }
 
 const submitForm = async () => {
-  // Validar todos os campos obrigatórios
-  const requiredFields = ['nomeCompleto', 'cpf', 'email', 'telefone', 'unidadeEnsino', 'funcaoAtual', 'formacaoAcademica', 'sexo']
-  requiredFields.forEach(field => validateField(field))
-  
-  // Validar documentos obrigatórios
-  const requiredDocs = ['rg', 'cpf', 'comprovante_residencia', 'foto_3x4', 'qualificacao_profissional', 'declaracao_experiencia', 'titulo_eleitor']
-  if (form.value.sexo === 'Masculino') {
-    requiredDocs.push('certificado_reservista')
-  }
-  
-  requiredDocs.forEach(doc => {
-    if (!files.value[doc]) {
-      setError(doc, 'Este documento é obrigatório')
-    }
-  })
-  
-  if (hasErrors.value) {
-    return
-  }
+  // Sem validações: envio direto
   
   isSubmitting.value = true
   
