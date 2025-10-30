@@ -19,7 +19,7 @@ RUN mkdir -p /app/data /app/uploads
 COPY package*.json ./
 
 # Install dependencies (including dev dependencies for build)
-RUN npm install
+RUN npm install --include=dev
 
 # Copy source code
 COPY . .
